@@ -1,0 +1,49 @@
+# Model arguments
+model_name_or_path: /data/xdl/pretrained_models/nlp/qwen2.5-math-7b
+model_revision: main
+torch_dtype: bfloat16
+attn_implementation: flash_attention_2
+
+# Data training arguments
+dataset_name: ./data/sft_data/
+dataset_configs:
+- train
+dataset_num_proc: 48
+
+system_prompt: "A conversation between User and Assistant. The user asks a question, and the Assistant solves it. The assistant first thinks about the reasoning process in the mind and then provides the user with the answer. The reasoning process and answer are enclosed within <think> </think> and <answer> </answer> tags, respectively, i.e., <think> reasoning process here </think> <answer> answer here </answer>. "
+
+
+# SFT trainer config
+bf16: true
+do_eval: false
+eval_strategy: 'no'
+gradient_accumulation_steps: 1
+gradient_checkpointing: true
+gradient_checkpointing_kwargs:
+  use_reentrant: false
+hub_model_id: Qwen2.5-1.5B-Open-R1-Distill
+hub_strategy: every_save
+learning_rate: 5.0e-05
+log_level: info
+logging_steps: 1
+logging_strategy: steps
+lr_scheduler_type: cosine_with_min_lr
+lr_scheduler_kwargs:
+  min_lr_rate: 0.1
+packing: true
+max_length: 16384
+max_steps: -1
+num_train_epochs: 2
+output_dir: /data/xdl/projects/openr1/checkpoints-sft
+overwrite_output_dir: true
+per_device_eval_batch_size: 16
+per_device_train_batch_size: 16
+push_to_hub: false
+report_to:
+- wandb
+save_strategy: "steps"
+save_steps: 20
+save_total_limit: 1
+seed: 42
+use_liger: false
+warmup_ratio: 0.05
