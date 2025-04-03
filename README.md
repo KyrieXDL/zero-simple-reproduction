@@ -14,6 +14,24 @@ The curves of loss and reward throughout the entire training process are shown i
     <img src="assets/train_loss.png" width="850">
 </center>
 
+
+### Experiment Results
+We used the greedy search decoding strategy. Run the following script to evaluate on the math datasets (aime2024, math-500, olympiad bench).
+```shell
+sh run_eval.sh
+```
+
+| Model                                    | AIME 2024 | MATH-500 | Olympiad Bench |
+|:-----------------------------------------|:---------:|:--------:|:--------------:|
+| Qwen-math-1.5B                           |   13.3    |   38.4   |      11.2      |
+| Qwen-math-1.5B +  GRPO (Full training)   |           |          |                |
+| Qwen-math-1.5B + Dr GRPO (Full training) |   13.3    |    69    |      18.2      |
+| Qwen-math-1.5B + DAPO (Full training)    |           |          |                |
+| Qwen-7B-base                             |    10     |   43.2   |     22.67      |
+| Qwen-7B-base +  GRPO (Lora)              |    3.3    |   63.6   |     21.92      |
+| Qwen-7B-base + Dr GRPO (Lora)            |           |          |                |
+| Qwen-7B-base + DAPO (Lora)               |           |          |                |
+
 ### Environment
 ```shell
 conda creat zero -n zero python=3.10

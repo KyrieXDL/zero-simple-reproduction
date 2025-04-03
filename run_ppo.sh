@@ -1,0 +1,28 @@
+CUDA_VISIBLE_DEVICES=0 accelerate launch --config_file recipes/accelerate_configs/zero2.yaml \
+    --num_processes=1 --main_process_port=29888 src/open_r1/ppo.py \
+    --dataset_name ./data/Hkust-Math-8k \
+    --dataset_train_split train \
+    --output_dir /data/xdl/projects/openr1/checkpoints_ppo-3b-base-Hkust-Math-8k \
+    --num_ppo_epochs 1 \
+    --num_mini_batches 1 \
+    --num_train_epochs 1 \
+    --learning_rate 3e-6 \
+    --per_device_train_batch_size 1 \
+    --gradient_accumulation_steps 8 \
+    --lr_scheduler_type cosine \
+    --warmup_ratio 0.1 \
+    --model_name_or_path /data/xdl/pretrained_models/nlp/qwen2.5-math-1.5b \
+    --sft_model_path /data/xdl/pretrained_models/nlp/qwen2.5-math-1.5b \
+    --reward_model_path /data/xdl/pretrained_models/nlp/qwen2.5-math-1.5b \
+    --local_rollout_forward_batch_size 1 \
+    --missing_eos_penalty 0.0 \
+    --report_to wandb \
+    --wandb_project 'zero-ppo-1.5b-base' \
+    --response_length 1024 \
+    --lora_target_modules q_proj,k_proj,v_proj,o_proj \
+    --kl_coef 0.04 \
+    --use_vllm \
+    --vllm_gpu_memory_utilization 0.15 \
+    --vllm_device 'cuda:0' \
+    --save_steps 20 \
+    --save_strategy "steps" \
